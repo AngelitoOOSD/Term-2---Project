@@ -93,6 +93,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="Properties\DataSources\CPRG200.TravelExperts.Data.Package.datasource" />
+    <None Include="Properties\DataSources\CPRG200.TravelExperts.Data.PackageProductSupplier.datasource" />
+    <None Include="Properties\DataSources\CPRG200.TravelExperts.Data.Product.datasource" />
+    <None Include="Properties\DataSources\CPRG200.TravelExperts.Data.ProductSupplier.datasource" />
+    <None Include="Properties\DataSources\CPRG200.TravelExperts.Data.Supplier.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -105,6 +110,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CPRG200.TravelExperts.Data\CPRG200.TravelExperts.Data.csproj">
+      <Project>{69521b55-11cd-40eb-aa4a-b1e7bd4d317d}</Project>
+      <Name>CPRG200.TravelExperts.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
