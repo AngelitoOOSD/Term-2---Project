@@ -31,7 +31,7 @@ namespace CPRG200_Workshop2_Group5
         {
             this.btnExit5 = new System.Windows.Forms.Button();
             this.btnAddPackage = new System.Windows.Forms.Button();
-            this.txtCommision = new System.Windows.Forms.TextBox();
+            this.txtCommission = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.txtPrice = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -55,6 +55,7 @@ namespace CPRG200_Workshop2_Group5
             this.btnExit5.TabIndex = 41;
             this.btnExit5.Text = "&Cancel";
             this.btnExit5.UseVisualStyleBackColor = false;
+            this.btnExit5.Click += new System.EventHandler(this.btnExit5_Click);
             // 
             // btnAddPackage
             // 
@@ -70,14 +71,15 @@ namespace CPRG200_Workshop2_Group5
             this.btnAddPackage.Text = "&Save";
             this.btnAddPackage.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnAddPackage.UseVisualStyleBackColor = false;
+            this.btnAddPackage.Click += new System.EventHandler(this.btnAddPackage_Click);
             // 
-            // txtCommision
+            // txtCommission
             // 
-            this.txtCommision.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtCommision.Location = new System.Drawing.Point(263, 331);
-            this.txtCommision.Name = "txtCommision";
-            this.txtCommision.Size = new System.Drawing.Size(197, 28);
-            this.txtCommision.TabIndex = 39;
+            this.txtCommission.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtCommission.Location = new System.Drawing.Point(263, 331);
+            this.txtCommission.Name = "txtCommission";
+            this.txtCommission.Size = new System.Drawing.Size(197, 28);
+            this.txtCommission.TabIndex = 39;
             // 
             // label6
             // 
@@ -135,6 +137,7 @@ namespace CPRG200_Workshop2_Group5
             this.pkgEndDateDateTimePicker.Name = "pkgEndDateDateTimePicker";
             this.pkgEndDateDateTimePicker.Size = new System.Drawing.Size(197, 28);
             this.pkgEndDateDateTimePicker.TabIndex = 33;
+            this.pkgEndDateDateTimePicker.Value = new System.DateTime(2021, 2, 10, 0, 0, 0, 0);
             // 
             // pkgStartDateDateTimePicker
             // 
@@ -144,6 +147,7 @@ namespace CPRG200_Workshop2_Group5
             this.pkgStartDateDateTimePicker.Name = "pkgStartDateDateTimePicker";
             this.pkgStartDateDateTimePicker.Size = new System.Drawing.Size(197, 28);
             this.pkgStartDateDateTimePicker.TabIndex = 32;
+            this.pkgStartDateDateTimePicker.Value = new System.DateTime(2021, 2, 10, 0, 0, 0, 0);
             // 
             // lblStartDate
             // 
@@ -193,7 +197,7 @@ namespace CPRG200_Workshop2_Group5
             this.ClientSize = new System.Drawing.Size(495, 470);
             this.Controls.Add(this.btnExit5);
             this.Controls.Add(this.btnAddPackage);
-            this.Controls.Add(this.txtCommision);
+            this.Controls.Add(this.txtCommission);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.txtPrice);
             this.Controls.Add(this.label5);
@@ -207,6 +211,7 @@ namespace CPRG200_Workshop2_Group5
             this.Controls.Add(this.lblName);
             this.Name = "frmAddPackage";
             this.Text = "frmAddPackage";
+            this.Load += new System.EventHandler(this.frmAddPackage_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -216,7 +221,7 @@ namespace CPRG200_Workshop2_Group5
 
         private System.Windows.Forms.Button btnExit5;
         private System.Windows.Forms.Button btnAddPackage;
-        private System.Windows.Forms.TextBox txtCommision;
+        private System.Windows.Forms.TextBox txtCommission;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtPrice;
         private System.Windows.Forms.Label label5;

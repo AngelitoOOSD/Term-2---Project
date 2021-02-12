@@ -106,5 +106,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TravelPackageDB\TravelPackageDB.csproj">
+      <Project>{eba971a3-6b34-45f1-8764-943f57e9bef3}</Project>
+      <Name>TravelPackageDB</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

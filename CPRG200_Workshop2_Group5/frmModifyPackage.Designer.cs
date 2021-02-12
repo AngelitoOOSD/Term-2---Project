@@ -142,6 +142,7 @@ namespace CPRG200_Workshop2_Group5
             this.btnExit4.TabIndex = 48;
             this.btnExit4.Text = "&Cancel";
             this.btnExit4.UseVisualStyleBackColor = false;
+            this.btnExit4.Click += new System.EventHandler(this.btnExit4_Click);
             // 
             // txtPackageId
             // 
@@ -163,6 +164,7 @@ namespace CPRG200_Workshop2_Group5
             this.btnSaveMod.TabIndex = 46;
             this.btnSaveMod.Text = "&Save";
             this.btnSaveMod.UseVisualStyleBackColor = false;
+            this.btnSaveMod.Click += new System.EventHandler(this.btnSaveMod_Click);
             // 
             // txtPkgAgencyCommission
             // 
@@ -241,6 +243,7 @@ namespace CPRG200_Workshop2_Group5
             this.Controls.Add(this.pkgStartDateDateTimePicker);
             this.Name = "frmModifyPackage";
             this.Text = "frmModifyPackage";
+            this.Load += new System.EventHandler(this.frmModifyPackage_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

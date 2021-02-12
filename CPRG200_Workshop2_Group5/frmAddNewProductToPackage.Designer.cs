@@ -43,6 +43,28 @@ namespace CPRG200_Workshop2_Group5
             packageIdLabel1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            label1.Location = new System.Drawing.Point(318, 26);
+            label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(175, 24);
+            label1.TabIndex = 43;
+            label1.Text = "Product Supplier Id:";
+            // 
+            // packageIdLabel1
+            // 
+            packageIdLabel1.AutoSize = true;
+            packageIdLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            packageIdLabel1.Location = new System.Drawing.Point(31, 26);
+            packageIdLabel1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            packageIdLabel1.Name = "packageIdLabel1";
+            packageIdLabel1.Size = new System.Drawing.Size(108, 24);
+            packageIdLabel1.TabIndex = 40;
+            packageIdLabel1.Text = "Package Id:";
+            // 
             // txtPackageId
             // 
             this.txtPackageId.Enabled = false;
@@ -64,17 +86,7 @@ namespace CPRG200_Workshop2_Group5
             this.btnCancel.TabIndex = 44;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = false;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            label1.Location = new System.Drawing.Point(318, 26);
-            label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
-            label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(175, 24);
-            label1.TabIndex = 43;
-            label1.Text = "Product Supplier Id:";
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // txtProdSupID
             // 
@@ -97,17 +109,6 @@ namespace CPRG200_Workshop2_Group5
             this.btnSave.TabIndex = 41;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = false;
-            // 
-            // packageIdLabel1
-            // 
-            packageIdLabel1.AutoSize = true;
-            packageIdLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            packageIdLabel1.Location = new System.Drawing.Point(31, 26);
-            packageIdLabel1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
-            packageIdLabel1.Name = "packageIdLabel1";
-            packageIdLabel1.Size = new System.Drawing.Size(108, 24);
-            packageIdLabel1.TabIndex = 40;
-            packageIdLabel1.Text = "Package Id:";
             // 
             // lbxAvailableSupplier
             // 
@@ -170,6 +171,7 @@ namespace CPRG200_Workshop2_Group5
             this.Controls.Add(this.label4);
             this.Name = "frmAddNewProductToPackage";
             this.Text = "frmAddNewProductToPackage";
+            this.Load += new System.EventHandler(this.frmAddNewProductToPackage_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
