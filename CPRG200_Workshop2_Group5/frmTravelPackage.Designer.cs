@@ -312,6 +312,7 @@
             this.btnExitApplication.TabIndex = 30;
             this.btnExitApplication.Text = "&Exit";
             this.btnExitApplication.UseVisualStyleBackColor = false;
+            this.btnExitApplication.Click += new System.EventHandler(this.btnExitApplication_Click_1);
             // 
             // btnModPackage
             // 
@@ -324,6 +325,7 @@
             this.btnModPackage.TabIndex = 29;
             this.btnModPackage.Text = "&Modify Package";
             this.btnModPackage.UseVisualStyleBackColor = false;
+            this.btnModPackage.Click += new System.EventHandler(this.btnModPackage_Click_1);
             // 
             // btnAddPackage
             // 
@@ -336,6 +338,7 @@
             this.btnAddPackage.TabIndex = 28;
             this.btnAddPackage.Text = "&Add Package";
             this.btnAddPackage.UseVisualStyleBackColor = false;
+            this.btnAddPackage.Click += new System.EventHandler(this.btnAddPackage_Click_1);
             // 
             // btnNewProducts
             // 
@@ -348,6 +351,7 @@
             this.btnNewProducts.TabIndex = 27;
             this.btnNewProducts.Text = "Add New Product";
             this.btnNewProducts.UseVisualStyleBackColor = false;
+            this.btnNewProducts.Click += new System.EventHandler(this.btnNewProducts_Click_1);
             // 
             // lstCurrentProducts
             // 
@@ -378,6 +382,7 @@
             this.cboPackageId.Name = "cboPackageId";
             this.cboPackageId.Size = new System.Drawing.Size(199, 28);
             this.cboPackageId.TabIndex = 14;
+            this.cboPackageId.SelectedIndexChanged += new System.EventHandler(this.cboPackageId_SelectedIndexChanged_1);
             // 
             // txtPkgAgencyCommission
             // 
@@ -757,6 +762,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmTravelPackage";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.frmTravelPackage_Load);
             this.tabControl1.ResumeLayout(false);
             this.lbxAvailableSuppliers.ResumeLayout(false);
             this.lbxAvailableSuppliers.PerformLayout();
