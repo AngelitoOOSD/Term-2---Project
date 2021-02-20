@@ -26,7 +26,7 @@ namespace CPRG200.TravelExperts.Data
             using (SqlConnection connection = TravelExpertsDB.GetConnection())
             {
                 string query = "SELECT PackageId, PkgName, PkgStartDate, PkgEndDate, PkgDesc, PkgBasePrice, PkgAgencyCommission " +
-                               "FROM Packages" +
+                               "FROM Packages " +
                                "WHERE PackageId = @PackageId";
                 using (SqlCommand cmd = new SqlCommand(query, connection))
                 {
@@ -72,45 +72,30 @@ namespace CPRG200.TravelExperts.Data
             }
             return pkg;
         }
-        
         /// <summary>
-        /// //////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// Katrina Spencer: List of package ids for combobox
         /// </summary>
-        /// <returns></returns>
-        //Get package as list
-        public static List<Package> GetPackagesAsList()
+        /// <returns>list of package ids</returns>
+        public static List<Package> GetPackageIds()
         {
-            List<Package> packages = new List<Package>();//Empty list
-            //Package packages = new Package();
-
-            using (SqlConnection connection = TravelExpertsDB.GetConnection())//Establish connection
+            List<Package> packages = new List<Package>(); // empty
+            Package pkg;
+            // connection
+            using (SqlConnection connection = TravelExpertsDB.GetConnection())
             {
-                //create SQL query
-                string query = "SELECT PackageId, PkgName, " +
-                    "PkgStartDate, PkgEndDate, PkgDesc, " +
-                    "PkgBasePrice, PkgAgencyCommission " +
-                    "FROM Packages";
-
-                //create command object
+                string query = "SELECT PackageId " +
+                               "FROM Packages " +
+                               "ORDER BY PackageId";
                 using (SqlCommand cmd = new SqlCommand(query, connection))
                 {
+                    // run command and process data
                     connection.Open();
-                    //run the command 
-                    using (SqlDataReader dr = cmd.ExecuteReader
-                        (System.Data.CommandBehavior.CloseConnection)) //we can close connection as soon as done reading
+                    using (SqlDataReader dr = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection))
                     {
-                        while (dr.Read()) //while there is data to read....
+                        while (dr.Read()) // while there is data
                         {
-                            //process the returned data
-                            Package pkg = new Package();
+                            pkg = new Package();
                             pkg.PackageId = (int)dr["PackageId"];
-                            pkg.PkgName = (string)dr["PkgName"];
-                            pkg.PkgStartDate = (DateTime)dr["PkgStartDate"];
-                            pkg.PkgEndDate = (DateTime)dr["PkgEndDate"];
-                            pkg.PkgDesc = (string)dr["PkgDesc"];
-                            pkg.PkgBasePrice = (decimal)dr["PkgBasePrice"];
-                            pkg.PkgAgencyCommission = (decimal)dr["PkgAgencyCommission"];
-
                             packages.Add(pkg);
                         }
                     }
@@ -118,11 +103,14 @@ namespace CPRG200.TravelExperts.Data
             }
             return packages;
         }
-
-        //Save a new package to db
+        /// <summary>
+        /// Angelito: Adds a new package
+        /// </summary>
+        /// <param name="pkg">new package info</param>
+        /// <returns>new package id</returns>
         public static int AddPackage(Package pkg)
         {
-            int pkgID = 0;
+            int pkgId = 0;
             using (SqlConnection connection = TravelExpertsDB.GetConnection())
             {
                 string insertStatement =
@@ -131,23 +119,49 @@ namespace CPRG200.TravelExperts.Data
                     "VALUES(@PkgName, @PkgStartDate, @PkgEndDate, @PkgDesc, @PkgBasePrice, @PkgAgencyCommission)";
                 using (SqlCommand cmd = new SqlCommand(insertStatement, connection))
                 {
+                    // Added consideration for Null values -Katrina
                     cmd.Parameters.AddWithValue("@PkgName", pkg.PkgName);
-                    cmd.Parameters.AddWithValue("@PkgStartDate", pkg.PkgStartDate);
-                    cmd.Parameters.AddWithValue("@PkgEndDate", pkg.PkgEndDate);
-                    cmd.Parameters.AddWithValue("@PkgDesc", pkg.PkgDesc);
+
+                    if (pkg.PkgStartDate == null)
+                        cmd.Parameters.AddWithValue("@PkgStartDate", DBNull.Value);
+                    else
+                        cmd.Parameters.AddWithValue("@PkgStartDate", (DateTime)pkg.PkgStartDate);
+
+                    if (pkg.PkgEndDate == null)
+                        cmd.Parameters.AddWithValue("@PkgEndDate", DBNull.Value);
+                    else
+                        cmd.Parameters.AddWithValue("@PkgEndDate", (DateTime)pkg.PkgEndDate);
+
+                    if (pkg.PkgDesc == null)
+                        cmd.Parameters.AddWithValue("@PkgDesc", DBNull.Value);
+                    else
+                        cmd.Parameters.AddWithValue("@PkgDesc", (string)pkg.PkgDesc);
+
                     cmd.Parameters.AddWithValue("@PkgBasePrice", pkg.PkgBasePrice);
-                    cmd.Parameters.AddWithValue("@PkgAgencyCommission", pkg.PkgAgencyCommission);
+
+                    if (pkg.PkgAgencyCommission == null)
+                        cmd.Parameters.AddWithValue("@PkgAgencyCommission", DBNull.Value);
+                    else
+                        cmd.Parameters.AddWithValue("@PkgAgencyCommission", (decimal)pkg.PkgAgencyCommission);
+
+                    // open connection
                     connection.Open();
-                    pkgID = (int)cmd.ExecuteScalar();//returns one value
+                    pkgId = (int)cmd.ExecuteScalar(); // returns one value
                 }
             }
-            return pkgID;
+            return pkgId;
         }
 
-        //update package
-        public static bool UpdatePackage(Package oldPkg, Package newPkg)//Takes two sets of Packages
+        /// <summary>
+        /// Angelito: Updates package info
+        /// </summary>
+        /// <param name="oldPkg">old package info</param>
+        /// <param name="newPkg">new package info</param>
+        /// <returns>success indicator</returns>
+        public static bool UpdatePackage(Package oldPkg, Package newPkg)
         {
-            bool result = true;
+            // added consideration for Null values -Katrina
+            bool result = false; // no success yet
             using (SqlConnection connection = TravelExpertsDB.GetConnection())
             {
                 string updateStatement = "UPDATE Packages SET " +
@@ -156,77 +170,84 @@ namespace CPRG200.TravelExperts.Data
                     "PkgEndDate = @NewPkgEndDate, " +
                     "PkgDesc = @NewPkgDesc, " +
                     "PkgBasePrice = @NewPkgBasePrice, " +
-                    "PkgAgencyCommission = @NewPkgCommission " +
-                    "WHERE PackageId = @PackageId " +
+                    "PkgAgencyCommission = @NewPkgAgencyCommission " +
+                    "WHERE PackageId = @OldPackageId " + // identifies package
                     "AND PkgName = @OldPkgName " +
-                    "AND PkgStartDate = @OldPkgStartDate " +
-                    "AND PkgEndDate = @OldPkgEndDate " +
-                    "AND PkgDesc = @OldPkgDesc " +
+                    // PkgStartDate Null option -Katrina
+                    "AND (PkgStartDate = @OldPkgStartDate " +
+                    "OR PkgStartDate IS NULL " +
+                    "AND @OldPkgStartDate IS NULL) " +
+                    // PkgEndDate Null option -Katrina
+                    "AND (PkgEndDate = @OldPkgEndDate " +
+                    "OR PkgEndDate IS NULL " +
+                    "AND @OldPkgEndDate IS NULL) " +
+                    // PkgDesc Null option -Katrina
+                    "AND (PkgDesc = @OldPkgDesc " +
+                    "OR PkgDesc IS NULL " +
+                    "AND @OldPkgDesc IS NULL) " +
                     "AND PkgBasePrice = @OldPkgBasePrice " +
-                    "AND PkgAgencyCommission = @OldPkgAgencyCommission";
+                    // PkgAgencyCommission Null option -Katrina
+                    "AND (PkgAgencyCommission = @OldPkgAgencyCommission " +
+                    "OR PkgAgencyCommission IS NULL " +
+                    "AND @OldPkgAgencyCommission IS NULL)";
                 using (SqlCommand cmd = new SqlCommand(updateStatement, connection))
                 {
+                    // added consideration for Null values -Katrina
                     cmd.Parameters.AddWithValue("@NewPkgName", newPkg.PkgName);
-                    cmd.Parameters.AddWithValue("@NewPkgStartDate", newPkg.PkgStartDate);
-                    cmd.Parameters.AddWithValue("@NewPkgEndDate", newPkg.PkgEndDate);
+
+                    if (newPkg.PkgStartDate == null) // if new PkgStartDate is null
+                        cmd.Parameters.AddWithValue("@NewPkgStartDate", DBNull.Value);
+                    else
+                        cmd.Parameters.AddWithValue("@NewPkgStartDate", (DateTime)newPkg.PkgStartDate);
+
+                    if (newPkg.PkgEndDate == null) // if new PkgEndDate is null
+                        cmd.Parameters.AddWithValue("@NewPkgEndDate", DBNull.Value);
+                    else
+                        cmd.Parameters.AddWithValue("@NewPkgEndDate", (DateTime)newPkg.PkgEndDate);
+
+                    // PkgDesc and PkgBasePrice can't be null when modifying
                     cmd.Parameters.AddWithValue("@NewPkgDesc", newPkg.PkgDesc);
                     cmd.Parameters.AddWithValue("@NewPkgBasePrice", newPkg.PkgBasePrice);
-                    cmd.Parameters.AddWithValue("@NewPkgCommission", newPkg.PkgAgencyCommission);
 
-                    cmd.Parameters.AddWithValue("@PackageId", oldPkg.PackageId);
+                    if (newPkg.PkgAgencyCommission == null) // if new PkgAgencyCommission is null
+                        cmd.Parameters.AddWithValue("@NewPkgAgencyCommission", DBNull.Value);
+                    else
+                        cmd.Parameters.AddWithValue("@NewPkgAgencyCommission", (decimal)newPkg.PkgAgencyCommission);
+
+                    cmd.Parameters.AddWithValue("@OldPackageId", oldPkg.PackageId);
                     cmd.Parameters.AddWithValue("@OldPkgName", oldPkg.PkgName);
-                    cmd.Parameters.AddWithValue("@OldPkgStartDate", oldPkg.PkgStartDate);
-                    cmd.Parameters.AddWithValue("@OldPkgEndDate", oldPkg.PkgEndDate);
-                    cmd.Parameters.AddWithValue("@OldPkgDesc", oldPkg.PkgDesc);
-                    cmd.Parameters.AddWithValue("@OldPkgBasePrice", oldPkg.PkgBasePrice);
-                    cmd.Parameters.AddWithValue("@OldPkgAgencyCommission", oldPkg.PkgAgencyCommission);
 
+                    if (oldPkg.PkgStartDate == null) // if old PkgStartDate is null
+                        cmd.Parameters.AddWithValue("@OldPkgStartDate", DBNull.Value);
+                    else
+                        cmd.Parameters.AddWithValue("@OldPkgStartDate", (DateTime)oldPkg.PkgStartDate);
+
+                    if (oldPkg.PkgEndDate == null) // if old PkgEndDate is null
+                        cmd.Parameters.AddWithValue("@OldPkgEndDate", DBNull.Value);
+                    else
+                        cmd.Parameters.AddWithValue("@OldPkgEndDate", (DateTime)oldPkg.PkgEndDate);
+
+                    if (oldPkg.PkgDesc == null) // if old PkgDesc is null
+                        cmd.Parameters.AddWithValue("@OldPkgDesc", DBNull.Value);
+                    else
+                        cmd.Parameters.AddWithValue("@OldPkgDesc", (string)oldPkg.PkgDesc);
+
+                    cmd.Parameters.AddWithValue("@OldPkgBasePrice", oldPkg.PkgBasePrice);
+
+                    if (oldPkg.PkgAgencyCommission == null) // if old PkgAgencyCommission is null
+                        cmd.Parameters.AddWithValue("@OldPkgAgencyCommission", DBNull.Value);
+                    else
+                        cmd.Parameters.AddWithValue("@OldPkgAgencyCommission", (decimal)oldPkg.PkgAgencyCommission);
+
+                    // open connection
                     connection.Open();
+                    // execute UPDATE command
                     int count = cmd.ExecuteNonQuery();
-                    if (count == 0) //no rows updated
+                    if (count > 0) // if row(s) affected
                         result = false;
                 }
             }
             return result;
-        }
-
-        //get package by ID
-        public static Package GetPackageInfo(int pkgID)
-        {
-            Package package = new Package();//Empty class
-
-            //establish connection
-            using (SqlConnection connection = TravelExpertsDB.GetConnection())
-            {
-                string query = "SELECT PackageId, PkgName, " +
-                    "PkgStartDate, PkgEndDate, PkgDesc, " +
-                    "PkgBasePrice, PkgAgencyCommission " +
-                    "FROM Packages " +
-                    "WHERE PackageId = @PackageId";
-                using (SqlCommand cmd = new SqlCommand(query, connection))
-                {
-                    cmd.Parameters.AddWithValue("@PackageId", pkgID);
-
-                    //run the command and process data
-                    connection.Open();
-                    using (SqlDataReader dr = cmd.ExecuteReader
-                        (System.Data.CommandBehavior.CloseConnection))
-                    {
-                        if (dr.Read())
-                        {
-                            package = new Package();
-                            package.PackageId = (int)dr["PackageId"];
-                            package.PkgName = dr["PkgName"].ToString();
-                            package.PkgStartDate = (DateTime)dr["PkgStartDate"];
-                            package.PkgEndDate = (DateTime)dr["PkgEndDate"];
-                            package.PkgDesc = dr["PkgDesc"].ToString();
-                            package.PkgBasePrice = (decimal)dr["PkgBasePrice"];
-                            package.PkgAgencyCommission = (decimal)dr["PkgAgencyCommission"];
-                        }
-                    }
-                }
-            }
-            return package;
         }
     }
 }

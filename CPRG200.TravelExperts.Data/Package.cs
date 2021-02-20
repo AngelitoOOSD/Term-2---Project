@@ -17,7 +17,7 @@ namespace CPRG200.TravelExperts.Data
         public string PkgName { get; set; }
         public DateTime? PkgStartDate { get; set; } // DBNull
         public DateTime? PkgEndDate { get; set; } // DBNull
-        public string PkgDesc { get; set; } // DBNull
+        public string PkgDesc { get; set; } // DBNull but can't be null when modifying
         public decimal PkgBasePrice { get; set; }
         public decimal? PkgAgencyCommission { get; set; } // DBNull
     }
